@@ -17,11 +17,11 @@ object E01 {
     require(n >= 0)
 
     @annotation.tailrec
-    def go(n: Int, prev: Int, acc: Int): Int = {
+    def loop(n: Int, prev: Int, acc: Int): Int = {
       if (n == 0) acc
-      else go(n - 1, acc, acc + prev)
+      else loop(n - 1, acc, acc + prev)
     }
 
-    go(n, 1, 0)
+    loop(n, 1, 0)
   }
 }
