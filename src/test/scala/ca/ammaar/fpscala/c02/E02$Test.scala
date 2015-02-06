@@ -36,4 +36,14 @@ class E02$Test extends FunSuite {
     val as: Array[Int] = Array[Int](0, 1, 2, 1)
     assert(!isSorted(as, ascending))
   }
+
+  test("Array with first item out of order") {
+    val as: Array[Int] = Array[Int](1, 0, 2, 3)
+    assert(!isSorted(as, ascending))
+  }
+
+  test("Array with items in between out of order") {
+    val as: Array[Int] = Array[Int](0, 1, 3, 2, 4)
+    assert(!isSorted(as, ascending))
+  }
 }
