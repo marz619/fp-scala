@@ -1,11 +1,12 @@
 package ca.ammaar.fpscala.chapters
 
-import ca.ammaar.fpscala.chapters.Chapter02._
 import org.scalatest.FunSuite
 
 import scala.util.Try
 
 class Chapter02$Test extends FunSuite {
+  import Chapter02._
+  import Chapter02$Test._
 
   /**
    * Exercise 2.1 Tests
