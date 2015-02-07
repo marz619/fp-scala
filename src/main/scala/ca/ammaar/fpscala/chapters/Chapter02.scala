@@ -1,4 +1,4 @@
-package ca.ammaar.fpscala.c02
+package ca.ammaar.fpscala.chapters
 
 object Chapter02 {
 
