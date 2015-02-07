@@ -2,12 +2,10 @@ package ca.ammaar.fpscala.chapters.c03
 
 import org.scalatest.{BeforeAndAfterEach, FunSuite}
 
-class List$Test extends FunSuite with BeforeAndAfterEach {
+class List$Test extends FunSuite {
   import List._
 
-  implicit var l: List[Int] = _
-
-  override def beforeEach(): Unit = l = List(1, 2, 3)
+  val l: List[Int] = List(1, 2, 3)
 
   test("tail returns the tail of a list") {
     assert(tail(l).equals(List(2, 3)))
