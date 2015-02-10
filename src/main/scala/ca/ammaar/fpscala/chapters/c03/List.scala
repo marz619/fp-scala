@@ -27,6 +27,22 @@ object List {
       case Nil => b
       case Cons(h, t) => Cons(h, append(t, b))
     }
+  
+  def foldRight[A, B](as: List[A], z: B)(f: (A, B) => B): B =
+    as match {
+      case Nil => z
+      case Cons(x, xs) => f(x, foldRight(xs, z)(f))  
+    }
+
+  def sum2(ints: List[Int]): Int = {
+    // foldRight[Int, Int](ints, 0)((x, y) => x + y)
+    foldRight(ints, 0)(_ + _)
+  }
+
+  def product2(doubles: List[Double]): Double = {
+    // foldRight[Double, Double](doubles, 1.0)((x, y) => x * y)
+    foldRight(doubles, 1.0)(_ * _)
+  }
 
   /**
    * Exercise 3.2
@@ -60,12 +76,27 @@ object List {
   /**
    * Exercise 3.5
    */
-  def dropWhile[A](l: List[A], f: A => Boolean): List[A] =
-    l match {
-      case Nil => Nil
-      case Cons(h, t) =>
-        if (f(h)) dropWhile(t, f)
-        else l
+  def dropWhile[A](as: List[A], f: A => Boolean): List[A] =
+    as match {
+      case Cons(h, t) if f(h) => dropWhile(t, f)
+      case _ => as
+    }
+
+  /**
+   * This way is better for type inference
+   *
+   * i.e. we don't have to define the type in the matching function
+   *
+   * <pre>
+   *   val xs: List(1, 2, 3, 4)
+   *   val as = dropWhile(xs)(x => x < 4)
+   *   // val as = dropWhile(xs)(_ < 4)
+   * </pre>
+   */
+  def dropWhileCurried[A](as: List[A])(f: A => Boolean): List[A] =
+    as match {
+      case Cons(h, t) if f(h) => dropWhileCurried(t)(f)
+      case _ => as
     }
 
   /**

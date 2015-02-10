@@ -31,6 +31,13 @@ class List$Test extends FunSuite {
     assert(dropWhile(l, cond(4)).equals(Nil))
   }
 
+  test("dropWhileCurried removes elements while some condition is true") {
+    assert(dropWhileCurried(l)(_ < 1).equals(List(1, 2, 3)))
+    assert(dropWhileCurried(l)(_ < 2).equals(List(2, 3)))
+    assert(dropWhileCurried(l)(_ < 3).equals(List(3)))
+    assert(dropWhileCurried(l)(_ < 4).equals(Nil))
+  }
+
   test("init returns all but the last element") {
     assert(init(l).equals(List(1, 2)))
     assert(init(init(l)).equals(List(1)))
