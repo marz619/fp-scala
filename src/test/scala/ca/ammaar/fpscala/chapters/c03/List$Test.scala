@@ -43,4 +43,27 @@ class List$Test extends FunSuite {
     assert(init(init(l)).equals(List(1)))
     assert(init(init(init(l))).equals(Nil))
   }
+
+  test("length") {
+    assert(length(Nil) == 0)
+    assert(length(l) == 3)
+  }
+
+  test("length2") {
+    assert(length2(Nil) == 0)
+    assert(length2(l) == 3)
+  }
+
+  test("Reverse a list") {
+    assert(reverse(Nil).equals(Nil))
+    assert(reverse(l).equals(List(3, 2, 1)))
+    assert(reverse(List(1)).equals(List(1)))
+    assert(reverse(List(1, 2)).equals(List(2, 1)))
+  }
+
+  test("concatenate some lists") {
+    assert(concat(List(Nil, Nil)).equals(Nil))
+    assert(concat(List(l, Nil)).equals(List(1, 2, 3)))
+    assert(concat(List(l, l)).equals(List(1, 2, 3, 1, 2, 3)))
+  }
 }
