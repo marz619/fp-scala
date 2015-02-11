@@ -5,18 +5,16 @@ case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
 
 object List {
-  def sum(ints: List[Int]): Int =
-    ints match {
-      case Nil => 0
-      case Cons(x, xs) => x + sum(xs)
-    }
+  def sum(ints: List[Int]): Int = ints match {
+    case Nil => 0
+    case Cons(x, xs) => x + sum(xs)
+  }
 
-  def product(doubles: List[Double]): Double =
-    doubles match {
-      case Nil => 1.0
-      case Cons(0.0, _) => 0.0
-      case Cons(d, ds) => d * product(ds)
-    }
+  def product(doubles: List[Double]): Double = doubles match {
+    case Nil => 1.0
+    case Cons(0.0, _) => 0.0
+    case Cons(d, ds) => d * product(ds)
+  }
 
   def apply[A](as: A*): List[A] =
     if (as.isEmpty) Nil
@@ -152,4 +150,58 @@ object List {
    */
   def concat[A](ls: List[List[A]]): List[A] =
     foldRight(ls, Nil:List[A])(append)
+
+  /**
+   * Exercise 3.16
+   */
+  def plusOne(ints: List[Int]): List[Int] =
+    foldRight(ints, Nil:List[Int])((i, t) => Cons(i + 1, t))
+
+  /**
+   * Exercise 3.17
+   */
+  def doubleToString(ds: List[Double]): List[String] =
+    foldRight(ds, Nil:List[String])((d, t) => Cons(d.toString, t))
+
+  /**
+   * Exercise 3.18
+   */
+  def map[A, B](as: List[A])(f: A => B): List[B] =
+    foldRight(as, Nil:List[B])((h, t) => Cons(f(h), t))
+
+  /**
+   * Exercise 3.19
+   */
+  def filter[A](as: List[A])(f: A => Boolean): List[A] =
+    foldRight(as, Nil:List[A])((h, t) => if (f(h)) Cons(h, t) else t)
+
+  /**
+   * Exercise 3.20
+   */
+  def flatMap[A, B](as: List[A])(f: A => List[B]): List[B] =
+    concat(map(as)(f))
+
+  /**
+   * Exercise 3.21
+   */
+  def filterViaFlatMap[A](as: List[A])(f: A => Boolean): List[A] =
+    flatMap(as)((a) => if (f(a)) Cons(a, Nil) else Nil)
+
+  /**
+   * Exercise 3.22
+   */
+  def sumLists(a: List[Int], b: List[Int]): List[Int] = (a, b) match {
+    case (Nil, _) => Nil
+    case (_, Nil) => Nil
+    case (Cons(ah, at), Cons(bh, bt)) => Cons(ah + bh, sumLists(at, bt))
+  }
+
+  /**
+   * Exercise 3.23
+   */
+  def zipWith[A, B, C](a: List[A], b: List[B])(f: (A, B) => C): List[C] = (a, b) match {
+    case (Nil, _) => Nil
+    case (_, Nil) => Nil
+    case (Cons(ah, at), Cons(bh, bt)) => Cons(f(ah, bh), zipWith(at, bt)(f))
+  }
 }

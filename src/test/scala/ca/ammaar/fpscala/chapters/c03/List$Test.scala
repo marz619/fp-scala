@@ -66,4 +66,37 @@ class List$Test extends FunSuite {
     assert(concat(List(l, Nil)).equals(List(1, 2, 3)))
     assert(concat(List(l, l)).equals(List(1, 2, 3, 1, 2, 3)))
   }
+
+  test("plusOne returns new list with elements incremented by one") {
+    assert(plusOne(Nil).equals(Nil))
+    assert(plusOne(l).equals(List(2, 3, 4)))
+  }
+  
+  test("doubleToString converts List[Double] to List[String]") {
+    assert(doubleToString(Nil).equals(Nil))
+    assert(doubleToString(List(1.0, 2.0, 3.0)).equals(List("1.0", "2.0", "3.0")))
+  }
+
+  test("map some things") {
+    assert(map(Nil)((a) => a).equals(Nil))
+    assert(map(l)((a) => a).equals(l))
+    assert(map(l)(_.toString).equals(List("1", "2", "3")))
+  }
+
+  test("test filter") {
+    assert(filter(Nil)(_ => true).equals(Nil))
+    assert(filter(l)(_ => true).equals(List(1, 2, 3)))
+    assert(filter(l)(_ % 2 == 0).equals(List(2)))
+  }
+
+  test("flatMap") {
+    assert(flatMap(Nil)((a) => List(a)).equals(Nil))
+    assert(flatMap(l)((i) => List(i, i)).equals(List(1,1,2,2,3,3)))
+  }
+
+  test("test filter via flatMap") {
+    assert(filterViaFlatMap(Nil)(_ => true).equals(Nil))
+    assert(filterViaFlatMap(l)(_ => true).equals(List(1, 2, 3)))
+    assert(filterViaFlatMap(l)(_ % 2 == 0).equals(List(2)))
+  }
 }
