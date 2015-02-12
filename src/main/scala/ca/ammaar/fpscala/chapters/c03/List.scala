@@ -204,4 +204,15 @@ object List {
     case (_, Nil) => Nil
     case (Cons(ah, at), Cons(bh, bt)) => Cons(f(ah, bh), zipWith(at, bt)(f))
   }
+
+  /**
+   * Exercise 3.24
+   */
+  def hasSubSequence[A](sup: List[A], sub: List[A]): Boolean = {
+    (sup, sub) match {
+      case (_, Nil) => true
+      case (Nil, _) => false
+      case (Cons(ph, pt), Cons(bh, bt)) => if (ph == bh) hasSubSequence(pt, bt) else hasSubSequence(pt, sub)
+    }
+  }
 }

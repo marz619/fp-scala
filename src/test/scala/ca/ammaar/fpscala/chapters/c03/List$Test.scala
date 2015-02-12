@@ -99,4 +99,15 @@ class List$Test extends FunSuite {
     assert(filterViaFlatMap(l)(_ => true).equals(List(1, 2, 3)))
     assert(filterViaFlatMap(l)(_ % 2 == 0).equals(List(2)))
   }
+
+  test("has sub sequence") {
+    assert(hasSubSequence(Nil, Nil))
+    assert(hasSubSequence(l, Nil))
+    assert(hasSubSequence(l, List(1)))
+    assert(hasSubSequence(l, List(2)))
+    assert(hasSubSequence(l, List(3)))
+    assert(hasSubSequence(l, List(1, 2)))
+    assert(hasSubSequence(l, List(2, 3)))
+    assert(hasSubSequence(l, l))
+  }
 }
