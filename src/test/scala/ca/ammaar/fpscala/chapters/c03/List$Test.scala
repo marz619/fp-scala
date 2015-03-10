@@ -1,6 +1,6 @@
 package ca.ammaar.fpscala.chapters.c03
 
-import org.scalatest.{BeforeAndAfterEach, FunSuite}
+import org.scalatest.FunSuite
 
 class List$Test extends FunSuite {
   import List._
