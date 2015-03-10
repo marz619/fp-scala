@@ -3,6 +3,15 @@ package ca.ammaar.fpscala.chapters.c04
 import scala.{Option => _, Either => _} // hides the standard library implementations
 
 sealed trait Option[+A] {
+
+  def get: A
+  def isEmpty: Boolean
+
+  def isDefined: Boolean = this match {
+    case None => false
+    case Some(x) => true
+  }
+
   def map[B](f: A => B): Option[B] = this match {
     case None => None
     case Some(a) => Some(f(a))
@@ -22,8 +31,15 @@ sealed trait Option[+A] {
   def filter(f: A => Boolean): Option[A] =
     flatMap(a => if (f(a)) Some(a) else None)
 }
-case class Some[+A](get: A) extends Option[A]
-case object None extends Option[Nothing]
+
+final case class Some[+A](get: A) extends Option[A] {
+  def isEmpty = false
+}
+
+case object None extends Option[Nothing] {
+  def isEmpty = true
+  def get = throw new NoSuchElementException("None.get")
+}
 
 object Option {
   /**
