@@ -1,6 +1,6 @@
 package ca.ammaar.fpscala.chapters.c04
 
-import scala.{Option => _, Either => _} // hides the standard library implementations
+import scala.{Option => _} // hides the standard library implementation
 
 sealed trait Option[+A] {
 
