@@ -6,12 +6,11 @@ sealed trait Option[+A] {
 
   def get: A
   def isEmpty: Boolean
+  def isDefined: Boolean
 
-  def isDefined: Boolean = this match {
-    case None => false
-    case Some(x) => true
-  }
-
+  /**
+   * returns Some[B] if this[A] via f
+   */
   def map[B](f: A => B): Option[B] = this match {
     case None => None
     case Some(a) => Some(f(a))
@@ -32,19 +31,29 @@ sealed trait Option[+A] {
   def flatMap[B](f: A => Option[B]): Option[B] =
     map(f).getOrElse(None)
 
+  /**
+   * if this is Some(A), return it, otherwise return Some(ob),
+   * None otherwise
+   */
   def orElse[B >: A](ob: => Option[B]): Option[B] =
     this.map(Some(_)).getOrElse(ob)
 
+  /**
+   * return an Option if some value a satisfies f,
+   * None otherwise
+   */
   def filter(f: A => Boolean): Option[A] =
     flatMap(a => if (f(a)) Some(a) else None)
 }
 
 final case class Some[+A](get: A) extends Option[A] {
   def isEmpty = false
+  def isDefined = true
 }
 
 case object None extends Option[Nothing] {
   def isEmpty = true
+  def isDefined = false
   def get = throw new NoSuchElementException("None.get")
 }
 
