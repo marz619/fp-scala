@@ -44,4 +44,44 @@ object Either {
   def Try[A](a: => A): Either[Exception, A] =
     try Right(a)
     catch { case e: Exception => Left(e) }
+
+  /**
+   * Exercise 4.7
+   * sequence: Turns a List of Either(s) into an Either of List
+   * traverse: Maps a list of A onto an Either of list of B
+   */
+
+  def sequence[E, A](es: List[Either[E, A]]): Either[E, List[A]] =
+    es match {
+      case Nil => Right(Nil)
+      case h :: t => h.flatMap(rh => sequence(t).map(rh :: _))
+    }
+
+  def traverse[E, A, B](as: List[A])(f: A => Either[E, B]): Either[E, List[B]] =
+    as match {
+      case Nil => Right(Nil)
+      case h :: t => f(h).flatMap(rh => traverse(t)(f).map(rh :: _))
+    }
+
+  /**
+   * Exercise 4.8
+   *
+   * How to accumulate a list of Exceptions?
+   *
+   * We could use Either[List[E], _] type, with modified map2 and sequence functions.
+   *
+   * OR
+   *
+   * We can create a new data type that accumulates a list of Errors in the
+   * constructor. This implementation 'Validates' a series of initial parameters
+   * and accumulates any errors.
+   *
+   * trait Validates[+E, +A]
+   * case class Errors[+E](get: Seq[E]) extends Validates[E, Nothing]
+   * case class Success[+A](get: A) extends Validates[Nothing, A]
+   *
+   * we can implement map, map2, and sequence for this Validates type, however flatMap would not work
+   * due to its nature of failing fast
+   */
+
 }
