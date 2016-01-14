@@ -1,8 +1,8 @@
 import sbt._
 
 object Version {
-  val scala     = "2.11.5"
-  val fpscala   = "0.0.1"
+  val scala     = "2.11.7"
+  val fpscala   = "0.0.5"
 }
 
 object Library {
