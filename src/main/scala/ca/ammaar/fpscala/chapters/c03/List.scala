@@ -1,5 +1,7 @@
 package ca.ammaar.fpscala.chapters.c03
 
+import scala.annotation.tailrec
+
 sealed trait List[+A]
 case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
@@ -66,6 +68,7 @@ object List {
   /**
    * Exercise 3.5
    */
+  @tailrec
   def dropWhile[A](as: List[A], f: A => Boolean): List[A] = as match {
     case Cons(h, t) if f(h) => dropWhile(t, f)
     case _ => as
@@ -174,6 +177,12 @@ object List {
    */
   def filter[A](as: List[A])(f: A => Boolean): List[A] =
     foldRight(as, Nil:List[A])((h, t) => if (f(h)) Cons(h, t) else t)
+
+  def filterNaive[A](as: List[A], f: A => Boolean): List[A] = as match {
+    case Cons(h, t) if f(h) => Cons(h, filterNaive(t, f))
+    case Cons(_, t) => filterNaive(t, f)
+    case Nil => Nil
+  }
 
   /**
    * Exercise 3.20

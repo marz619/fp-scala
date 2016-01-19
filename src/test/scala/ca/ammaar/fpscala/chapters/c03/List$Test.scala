@@ -7,6 +7,17 @@ class List$Test extends FunSuite {
 
   val l: List[Int] = List(1, 2, 3)
 
+  test("exercise 3.1") {
+    val x = List(1, 2, 3, 4, 5) match {
+      case Cons(x, Cons(2, Cons(4, _))) => x
+      case Nil => 42
+      case Cons(x, Cons(y, Cons(3, Cons(4, _)))) => x + y
+      case Cons(h, t) => h + sum(t)
+      case _ => 101
+    }
+    assert(x == 3)
+  }
+
   test("tail returns the tail of a list") {
     assert(tail(l).equals(List(2, 3)))
     assert(tail(tail(l)).equals(List(3)))
@@ -15,6 +26,7 @@ class List$Test extends FunSuite {
 
   test("setHead changes the head of a list") {
     assert(setHead(l, 0).equals(List(0, 2, 3)))
+    assert(setHead(Nil, 42).equals(List(42, Nil)))
   }
 
   test("drop removes the head of a list") {
@@ -24,7 +36,9 @@ class List$Test extends FunSuite {
   }
 
   test("dropWhile removes elements while some condition is true") {
-    def cond(s: Int): (Int) => Boolean = { i: Int => i < s }
+    def cond(s: Int): (Int) => Boolean = _ < s
+//    def cond(s: Int): (Int) => Boolean = { i: Int => i < s }
+
     assert(dropWhile(l, cond(1)).equals(List(1, 2, 3)))
     assert(dropWhile(l, cond(2)).equals(List(2, 3)))
     assert(dropWhile(l, cond(3)).equals(List(3)))
@@ -89,7 +103,13 @@ class List$Test extends FunSuite {
     assert(filter(l)(_ % 2 == 0).equals(List(2)))
   }
 
-  test("flatMap") {
+  test("test filterNaive") {
+    assert(filterNaive[Nothing](Nil, _ => true).equals(Nil))
+    assert(filterNaive[Int](l, _ => true).equals(List(1, 2, 3)))
+    assert(filterNaive[Int](l, (x: Int) => x % 2 == 0).equals(List(2)))
+  }
+
+  test("test flatMap") {
     assert(flatMap(Nil)((a) => List(a)).equals(Nil))
     assert(flatMap(l)((i) => List(i, i)).equals(List(1,1,2,2,3,3)))
   }
@@ -100,7 +120,7 @@ class List$Test extends FunSuite {
     assert(filterViaFlatMap(l)(_ % 2 == 0).equals(List(2)))
   }
 
-  test("has sub sequence") {
+  test("test has sub sequence") {
     assert(hasSubSequence(Nil, Nil))
     assert(hasSubSequence(l, Nil))
     assert(hasSubSequence(l, List(1)))

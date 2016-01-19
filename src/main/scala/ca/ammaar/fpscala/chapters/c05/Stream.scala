@@ -1,5 +1,7 @@
 package ca.ammaar.fpscala.chapters.c05
 
+import scala.annotation.tailrec
+
 sealed trait Stream[+A] {
   import Stream._
 
@@ -43,7 +45,7 @@ sealed trait Stream[+A] {
   /**
    * Exercise 5.2 Drops the first n elements of this Stream
    */
-  @annotation.tailrec
+  @tailrec
   final def drop(n: Int): Stream[A] = this match {
     case Cons(_, t) if n > 0 => t().drop(n - 1)
     case _ => this
